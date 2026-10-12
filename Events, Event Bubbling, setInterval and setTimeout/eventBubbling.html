@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Bubbling</title>
+    <style>
+        .Child{
+            background-color: aliceblue;
+            border: 2px solid black;
+            padding:34px;
+            margin:34px;
+            cursor:pointer;
+        }
+        .childContainer{
+            background-color: beige;
+            padding:14px;
+            margin:14px;
+        }
+        .container{
+            background-color: rgb(205, 205, 27);
+            padding:14px;
+            margin:14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="childContainer">
+            <div class="Child">
+                I am a child
+            </div>
+        </section>
+    </div>
+    <script>
+        document.querySelector(".Child").addEventListener("click",(e)=>{ //e is an event object
+            e.stopPropagation() //Stops Event-Bubbling 
+            alert("Child was clicked")
+        })
+        // When we clicked on Child, so technically we have clicked on childContainer and Container also;
+        // cuz it is inside both of them.So click event will be applicable to all three of them when we 
+        // singly click on child that's called Event Bubbling.
+        document.querySelector(".childContainer").addEventListener("click",()=>{ 
+            // Here Event-Bubbling will happen
+            alert("childContainer was clicked")
+        })
+        document.querySelector(".container").addEventListener("click",()=>{  
+            alert("container was clicked")
+        })
+
+        //setInterval() use to run set of code repeatedly after a given time
+        let a=setInterval(()=>{
+            document.querySelector(".childContainer").style.backgroundColor=getRandomColor()
+        },1000) // Now it give random color after every 1 second
+        function getRandomColor(){ //from video-70+72
+            let val1=Math.ceil(0+Math.random()*(255-0));
+            let val2=Math.ceil(0+Math.random()*(255-0));
+            let val3=Math.ceil(0+Math.random()*(255-0));
+            return `rgb(${val1},${val2},${val3})`
+        }
+        // clearInterval(a) // Cancel setInterval()
+
+        //setTimeout() use to run set of code once after a given time
+        let b=setTimeout(()=>{
+            document.querySelector(".childContainer").style.backgroundColor=getRandomColor()
+        },2000) // Now it give random color after 2 second then stop
+        clearTimeout(b) // Camcel setTimeout()
+    </script>
+</body>
+</html>
